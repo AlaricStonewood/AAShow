@@ -18,6 +18,11 @@ a[:int(N / 2), :][R[:int(N / 2), :] < 0.3] = 1
 aa[:, int(N / 3):] = a[:, int(N / 3):]
 a = aa
 
+fig, ax = plt.subplots(figsize=(16, 9))
+ax.imshow(a, interpolation='nearest', cmap='RdBu_r')
+plt.savefig(f'no_AA.png')
+plt.show()
+
 i = 0
 
 fig, axs = plt.subplots(2, 2, figsize=(16, 9), constrained_layout=True)
@@ -37,21 +42,37 @@ for ax, interp, space in zip(axs.flat[1:],
 plt.show()
 
 fig, ax = plt.subplots(figsize=(16, 9))
-ax.imshow(a, interpolation='nearest', cmap='gray')
+ax.imshow(a, interpolation='nearest', interpolation_stage='rgba', cmap='RdBu_r')
 ax.set_title("upsampled by factor a 1.048, interpolation='nearest'")
 plt.savefig(f'nearest.png')
 plt.show()
 
 fig, ax = plt.subplots(figsize=(16, 9))
-ax.imshow(a, interpolation='antialiased', cmap='gray')
+ax.imshow(a, interpolation='antialiased', interpolation_stage='rgba',  cmap='RdBu_r')
 ax.set_title("upsampled by factor a 1.048, interpolation='antialiased'")
 plt.savefig(f'aa.png')
+plt.show()
+
+fig, ax = plt.subplots(figsize=(16, 9))
+ax.imshow(a, interpolation='nearest', interpolation_stage='rgba', cmap='RdBu_r')
+ax.set_xlim(100, 200)
+ax.set_ylim(275, 175)
+ax.set_title('Zoom - No AA')
+plt.savefig(f'zoom_no_aa.png')
+plt.show()
+
+fig, ax = plt.subplots(figsize=(16, 9))
+ax.imshow(a, interpolation='antialiased', interpolation_stage='rgba',  cmap='RdBu_r')
+ax.set_xlim(100, 200)
+ax.set_ylim(275, 175)
+ax.set_title('Zoom - AA')
+plt.savefig(f'zoom_aa.png')
 plt.show()
 
 i = 0
 fig, axs = plt.subplots(1, 2, figsize=(16, 9), constrained_layout=True)
 for ax, interp in zip(axs, ['hanning', 'lanczos']):
-    ax.imshow(a, interpolation=interp, cmap='gray')
+    ax.imshow(a, interpolation=interp, cmap='RdBu_r')
     ax.set_title(f"interpolation='{interp}'")
     plt.savefig(f'interp{i}.png')
     i += 1
